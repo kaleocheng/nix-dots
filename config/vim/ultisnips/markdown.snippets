@@ -1,0 +1,47 @@
+snippet kbd "kbd html tag" i
+<kbd>$1</kbd>$0
+endsnippet
+
+snippet kbsft "kbd shift" i
+<kbd>⇧Shift</kbd>$0
+endsnippet
+
+snippet kbctl "kbd control" i
+<kbd>⌃Control</kbd>$0
+endsnippet
+
+snippet kbopt "kbd option" i
+<kbd>⌥Option</kbd>$0
+endsnippet
+
+snippet kbcmd "kbd command" i
+<kbd>⌘Command</kbd>$0
+endsnippet
+
+snippet kbesc "kbd Escape" i
+<kbd>⎋Escape</kbd>$0
+endsnippet
+
+snippet kbcap "kbd Caps" i
+<kbd>⇪Caps lock</kbd>$0
+endsnippet
+
+snippet kbtap "kbd Tap" i
+<kbd>⇥Tab</kbd>$0
+endsnippet
+
+snippet kbdel "kbd Del" i
+<kbd>⌫Delete</kbd>$0
+endsnippet
+
+snippet kbenter "kbd Enter" i
+<kbd>↵Enter</kbd>
+endsnippet
+
+snippet hr "hr" i
+------
+endsnippet
+
+snippet /h([1-5])/ "h1 h2..." r
+`!p snip.rv = "#" * int(match.group(1)) + " "`
+endsnippet

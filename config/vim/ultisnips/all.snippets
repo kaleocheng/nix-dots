@@ -1,0 +1,15 @@
+global !p
+from uuid import uuid4
+import os
+endglobal
+
+snippet uuid "generate uuid4" i
+`!p if not snip.c: snip.rv = str(uuid4())`
+endsnippet
+
+snippet /pwgen([0-9]*)/ "pwgen password" r
+`!p
+stream = os.popen(f'pwgen {match.group(1)} -1')
+if not snip.c: snip.rv = stream.read().strip()
+`
+endsnippet

@@ -1,0 +1,6 @@
+{
+  programs.ripgrep = {
+    enable = true;
+  };
+}
+

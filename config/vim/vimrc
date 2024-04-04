@@ -1,0 +1,24 @@
+set encoding=utf-8
+set nocompatible
+set nu
+set splitbelow
+set switchbuf=useopen
+set autoread
+set autoindent
+set bs=2
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set hlsearch
+set incsearch
+syntax on
+filetype plugin on
+
+" .: Scan the current buffer
+" w: Scan buffers from other windows
+" b: Scan buffers from the buffer list
+" u: Scan buffers that have been unloaded from the buffer list
+" t: Tag completion
+" i: Scan the current and included files
+set complete=.,w,b,u,t,i
+

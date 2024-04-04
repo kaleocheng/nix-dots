@@ -1,0 +1,6 @@
+snippet cal "generate cal date" i
+`!p
+stream = os.popen('cal -m --color=never')
+if not snip.c: snip.rv = stream.read()
+`
+endsnippet
