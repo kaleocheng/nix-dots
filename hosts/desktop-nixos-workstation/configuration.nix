@@ -1,7 +1,4 @@
 { config, pkgs, ... }:
-let
-  nix = import ../../config/nix.nix;
-in
 {
   imports = [
     ./hardware-configuration.nix
@@ -29,5 +26,5 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  system.stateVersion = nix.stateVersion;
+  system.stateVersion = "24.11";
 }

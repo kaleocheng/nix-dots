@@ -1,6 +1,5 @@
 { pkgs, config, ... }:
 let
-  nix = import ../../config/nix.nix;
   sshKeysDir = ../../config/ssh/keys;
   sshUtils = import ../../lib/ssh.nix { };
 in
@@ -25,5 +24,5 @@ in
   boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
 
-  system.stateVersion = nix.stateVersion;
+  system.stateVersion = "24.11";
 }

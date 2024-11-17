@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 let
   users = import ../../config/users.nix;
-  nix = import ../../config/nix.nix;
-
 in
 {
   imports = [
@@ -14,7 +12,7 @@ in
   home = {
     username = users.work;
     homeDirectory = "/Users/${users.work}";
-    stateVersion = nix.homeManagerStateVersion;
+    stateVersion = "24.11";
     sessionPath = [
       "/opt/homebrew/bin"
     ];
