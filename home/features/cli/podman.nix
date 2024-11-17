@@ -1,5 +1,7 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
-    podman podman-compose
+    podman
+    podman-compose
   ];
 }

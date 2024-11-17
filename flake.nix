@@ -1,5 +1,5 @@
 {
-  description = "Kaleo NixOS flake";
+  description = "Nix Dotsfiles with flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -9,54 +9,54 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
-    homeConfigurations."kaleo@mbp" = home-manager.lib.homeManagerConfiguration {
-     pkgs = import nixpkgs {
-        system = "aarch64-darwin";
-        config = {
-          allowUnfree = true;
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
+
+    let
+      hosts = import ./config/hosts.nix;
+      mkHomeConfigurations =
+        host:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            system = host.arch;
+            config = {
+              allowUnfree = true;
+            };
+          };
+          modules = [
+            ./hosts/${host.dir}/home.nix
+            ./overlays
+          ];
         };
-     };
-     modules = [
-        ./hosts/laptop-mbp-m1/home.nix
-     ];
-    };
 
-    homeConfigurations."kaleo@debian" = home-manager.lib.homeManagerConfiguration {
-     pkgs = import nixpkgs {
-        system = "x86_64-linux";
-        config = {
-          allowUnfree = true;
+      mkNixOSConfigurations =
+        host:
+        nixpkgs.lib.nixosSystem {
+          system = host.arch;
+          modules = [
+            ./hosts/${host.dir}/configuration.nix
+            ./overlays
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.users."${host.user}" = import ./hosts/${host.dir}/home.nix;
+            }
+          ];
         };
-     };
-     modules = [
-        ./hosts/laptop-thinkpad-x61/home.nix
-     ];
-    };
 
-    nixosConfigurations."live-desktop" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-        ./hosts/live-desktop/configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.users.kaleo = import ./hosts/live-desktop/home.nix;
-        }
-      ];
-    };
+    in
 
-    nixosConfigurations."desktop-main" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        ./hosts/desktop-main/configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.users.kaleo = import ./hosts/desktop-main/home.nix;
-        }
-      ];
+    {
+      nixosConfigurations."${hosts.workstation.hostname}" = mkNixOSConfigurations hosts.workstation;
+      nixosConfigurations."${hosts.aha.hostname}" = mkNixOSConfigurations hosts.aha;
+      nixosConfigurations."${hosts.gateway.hostname}" = mkNixOSConfigurations hosts.gateway;
+
+      homeConfigurations."${hosts.work.user}@${hosts.work.hostname}" = mkHomeConfigurations hosts.work;
+      homeConfigurations."${hosts.wsl.hostname}" = mkHomeConfigurations hosts.wsl;
     };
-  };
 }

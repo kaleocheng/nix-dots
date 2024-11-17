@@ -1,0 +1,4 @@
+{
+  default = "kaleoc";
+  work = "kc";
+}

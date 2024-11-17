@@ -1,17 +1,18 @@
+{ config, pkgs, ... }:
 {
   programs.bash = {
     enable = true;
-    historyIgnore = ["ls" "exit"];
+    historyIgnore = [
+      "ls"
+      "exit"
+    ];
+    sessionVariables = {
+      ANSIBLE_VAULT_PASSWORD_FILE = ".vault_password";
+    };
     shellAliases = {
-      gs = "git status";
-      gd = "git diff";
-      gdc = "git diff --cached";
-      ga = "git add . -p";
-      gp = "git push";
+      cat = "bat --style=plain --paging=never";
       hmbuild = "home-manager switch";
       nixbuild = "sudo nixos-rebuild switch";
-      nixupdate = "nix flake  update --commit-lock-file  ~/dotfiles";
     };
   };
 }
-

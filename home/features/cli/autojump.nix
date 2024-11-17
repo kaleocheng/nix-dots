@@ -1,6 +1,6 @@
 {
   programs.autojump = {
-      enable = true;
-      enableBashIntegration = true;
+    enable = true;
+    enableBashIntegration = true;
   };
 }

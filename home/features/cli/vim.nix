@@ -1,28 +1,15 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.neovim = {
     enable = true;
     vimAlias = true;
     defaultEditor = true;
-    extraConfig = (builtins.readFile ../../../config/vim/vimrc );
+    extraConfig = (builtins.readFile ../../../config/vim/vimrc);
     plugins = [
       #####START########
       # plugin for file tree
       ##################
       pkgs.vimPlugins.nerdtree
-      #####END##########
-
-      #####START########
-      # plugin for snips
-      ##################
-      {
-        plugin = pkgs.vimPlugins.ultisnips;
-        config = ''
-          let g:UltiSnipsExpandTrigger="<tab>"
-          let g:UltiSnipsJumpForwardTrigger="<C-j>"
-          let g:UltiSnipsJumpBackwardTrigger="<C-k>"
-          let g:UltiSnipsSnippetDirectories=[$HOME.'/dotfiles/config/vim/ultisnips']
-        '';
-      }
       #####END##########
 
       #####START########
@@ -43,13 +30,6 @@
           autocmd! User GoyoLeave Limelight!
         '';
       }
-
-      #####END##########
-
-      #####START########
-      # plugin for complete
-      ##################
-      pkgs.vimPlugins.copilot-vim
       #####END##########
 
       #####START########
@@ -71,7 +51,10 @@
       }
       {
         plugin = pkgs.vimPlugins.vim-floaterm;
-        config = "let g:floaterm_keymap_toggle = '<C-/>'";
+        config = ''
+          let g:floaterm_keymap_toggle = '<C-/>'
+          cnoreabbrev Term FloatermToggle
+        '';
       }
 
       #####END##########

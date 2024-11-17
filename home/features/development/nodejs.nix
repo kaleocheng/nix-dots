@@ -1,3 +1,7 @@
-{pkgs, ...}: {
-  home.packages = with pkgs; [ nodejs yarn ];
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    nodejs
+    yarn
+  ];
 }

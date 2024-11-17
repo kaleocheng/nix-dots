@@ -1,8 +1,9 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.git = {
     enable = true;
-    userEmail = "kaleo@xxx.xxx";
-    userName = "Kaleo";
+    userEmail = "k@example.com";
+    userName = "k";
 
     aliases = {
       co = "checkout";
@@ -28,7 +29,15 @@
     lfs.enable = true;
   };
 
+  programs.bash.shellAliases = {
+    gs = "git status";
+    gd = "git diff";
+    gdc = "git diff --cached";
+    ga = "git add . -p";
+    gp = "git push";
+  };
+
   home.packages = [
-    (pkgs.callPackage ../../../pkgs/gm.nix {})
+    (pkgs.callPackage ../../../pkgs/gm.nix { })
   ];
 }

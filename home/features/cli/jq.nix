@@ -1,6 +1,6 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.jq = {
     enable = true;
   };
 }
-
