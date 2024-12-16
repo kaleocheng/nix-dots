@@ -39,6 +39,37 @@ Here's how it's laid out:
 | `overlays/` |                              | Custom package overlays for Nixpkgs, e.g., `mkLinuxOnly` function for importing Linux-only packages.                                                                                              |
 | `pkgs/`     |                              | Custom package definitions for software not in the standard Nix repositories.                                                                                                                     |
 
+### Using Overlays for Custom Versions
+
+In some cases, you might want to use a different version of a package for specific systems. For example, to use the latest `ollama` package on the gateway server, you can define an overlay in your `flake.nix`:
+
+```nix
+let
+  ollamaPkgs = import inputs.nixpkgs {
+    system = "x86_64-linux";
+    config = {
+      allowUnfree = true;
+    };
+  };
+
+  ollamaOverlay = (
+    final: prev: {
+      ollama = ollamaPkgs.ollama;
+    }
+  );
+in
+{
+  nixosConfigurations."${hosts.gateway.hostname}" = mkNixOSConfigurations {
+    host = hosts.gateway;
+    nixpkgs = inputs.nixpkgs-stable;
+    home-manager = inputs.home-manager-stable;
+    overlays = [ ollamaOverlay ];
+  };
+}
+```
+
+This overlay ensures that the latest version of `ollama` is used on the gateway server.
+
 ## How I'm Using This
 
 I'm using this structure to manage most of my devices which include x86 desktops/laptops, Windows WSL, Apple Silicon Macs, x86 servers, etc. there is usually what I do:

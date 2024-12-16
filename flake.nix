@@ -66,6 +66,19 @@
           ] ++ modules;
         };
 
+      ollamaPkgs = import inputs.nixpkgs {
+        system = "x86_64-linux";
+        config = {
+          allowUnfree = true;
+        };
+      };
+
+      ollamaOverlay = (
+        final: prev: {
+          ollama = ollamaPkgs.ollama;
+        }
+      );
+
     in
 
     {
@@ -83,6 +96,7 @@
         host = hosts.gateway;
         nixpkgs = inputs.nixpkgs-stable;
         home-manager = inputs.home-manager-stable;
+        overlays = [ ollamaOverlay ];
       };
 
       homeConfigurations."${hosts.work.user}@${hosts.work.hostname}" = mkHomeConfigurations {
