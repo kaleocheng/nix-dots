@@ -1,6 +1,6 @@
 # Managing Dotfiles with Nix
 
-Managing dotfiles across different systems can be tricky. This repo demonstrates how to use Nix ( with flake ) to handle dotfiles in a way that's easy to manage and works on various systems like NixOS, macOS, and Windows Subsystem for Linux (WSL).
+Managing dotfiles across different systems can be tricky. This repo demonstrates how to use Nix (with flake) to handle dotfiles in a way that's easy to manage and works on various systems like NixOS, macOS, and Windows Subsystem for Linux (WSL).
 
 ## Why Use Nix?
 
@@ -10,7 +10,7 @@ Nix offers a different way to manage software and system settings. It provides:
 - **No Conflicts**: Avoids issues with different software versions.
 - **Flexibility**: Lets you organize settings into parts you can reuse.
 
-And the most important thing: you can leverage the biggest reuseable configuration repository in the world: [Nixpkgs](https://github.com/NixOS/nixpkgs) to make your life easier. E.g. to setup a self-hosted Jellyfin server, maybe all you need to do is add this to your configuration:
+And the most important thing: you can leverage the biggest reusable configuration repository in the world: [Nixpkgs](https://github.com/NixOS/nixpkgs) to make your life easier. E.g. to setup a self-hosted Jellyfin server, maybe all you need to do is add this to your configuration:
 
 ```nix
 services.jellyfin.enable = true;
@@ -22,11 +22,11 @@ Here's how it's laid out:
 
 ### `flake.nix`
 
-`flake.nix` is the entry point of this repo, it loads configuration for each host from `hosts/*`.
+`flake.nix` is the entry point of this repo, it loads configuration for each host from `hosts/*`. We use different sources for different instances: the latest NixOS unstable for workstations and the stable release for servers. This ensures that workstations have the latest features while servers maintain stability.
 
 ### `config/`
 
-This folder has static settings for apps like SSH and Vim. And we will use Nix function `builtins.readFile` read these files and use them in our configuration whenever needed.
+This folder has static settings for apps like SSH and Vim. And we will use Nix function `builtins.readFile` to read these files and use them in our configuration whenever needed.
 
 ### `home/`
 
@@ -55,7 +55,7 @@ I provide a simple SSH function to read all `.pub` files in a directory and retu
 
 NixOS-specific settings, it's similar to `home/` for home-manager, but this is for NixOS only:
 
-- **`features/`**: Individual NixOS features like services/applicatoins/cli.
+- **`features/`**: Individual NixOS features like services/applications/cli.
 - **`flavors/`**: Pre-made NixOS setups for different needs, usually it's a combination of `features` + some settings for specific needs.
 - **`hardware/`**: Settings for specific hardware like GPUs.
 - **`modules/`**: Custom NixOS modules for extra features.
@@ -78,7 +78,7 @@ I'm using this structure to manage most of my devices which include x86 desktops
 
 1. Install NixOS or nix + standalone Home-Manager for non-NixOS. Enable flake.
 2. Clone this repository.
-3. add new hosts to `hosts/*` and adjust the settings.
+3. Add new hosts to `hosts/*` and adjust the settings.
 4. Run the installation script:
    ```bash
    ./install.sh
@@ -86,11 +86,11 @@ I'm using this structure to manage most of my devices which include x86 desktops
 
 ### For NixOS Devices
 
-just run `nixos-rebuild switch` to apply the configuration.
+Just run `nixos-rebuild switch` to apply the configuration.
 
 ### For Non-NixOS Devices
 
-run `home-manager switch` to apply the configuration.
+Run `home-manager switch` to apply the configuration.
 
 ---
 
