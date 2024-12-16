@@ -20,55 +20,24 @@ services.jellyfin.enable = true;
 
 Here's how it's laid out:
 
-### `flake.nix`
-
-`flake.nix` is the entry point of this repo, it loads configuration for each host from `hosts/*`. We use different sources for different instances: the latest NixOS unstable for workstations and the stable release for servers. This ensures that workstations have the latest features while servers maintain stability.
-
-### `config/`
-
-This folder has static settings for apps like SSH and Vim. And we will use Nix function `builtins.readFile` to read these files and use them in our configuration whenever needed.
-
-### `home/`
-
-Home-manager settings are split into:
-
-- **`features/`**: Modules for tools and apps. For example, we put `git` settings in `features/cli/git.nix`, and `vscode` settings in `features/application/vscode.nix`.
-- **`flavors/`**: Pre-made setups like minimal or development environments, usually it's a combination of `features`.
-
-### `hosts/`
-
-Settings specific to each device/system are here. It's the entry point for each host, you will put your own hosts in here but let me show you some examples:
-
-- **`desktop-nixos-workstation/`**: Main setup for a NixOS desktop.
-- **`laptop-macos-work/`**: MacBook setup using home-manager.
-- **`laptop-nixos-aha/`**: NixOS laptop setup.
-- **`laptop-wsl-windows/`**: WSL setup using home-manager.
-- **`server-nixos-gateway/`**: NixOS server setup.
-
-### `lib/`
-
-Common Nix functions and tools are here, which you can use in different settings.
-
-I provide a simple SSH function to read all `.pub` files in a directory and return them as a list of strings.
-
-### `nixos/`
-
-NixOS-specific settings, it's similar to `home/` for home-manager, but this is for NixOS only:
-
-- **`features/`**: Individual NixOS features like services/applications/cli.
-- **`flavors/`**: Pre-made NixOS setups for different needs, usually it's a combination of `features` + some settings for specific needs.
-- **`hardware/`**: Settings for specific hardware like GPUs.
-- **`modules/`**: Custom NixOS modules for extra features.
-
-### `overlays/`
-
-Custom package overlays for Nixpkgs.
-
-e.g. I added a new function `mkLinuxOnly` to `pkgs` so I can import Linux-only packages easily with `pkgs.mkLinuxOnly [ linux-only-package ]`.
-
-### `pkgs/`
-
-This folder has custom package definitions for software not in the standard Nix repositories.
+| Folder      | Subfolder/Files              | Description                                                                                                                                                                                       |
+|-------------|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `flake.nix` |                              | Entry point of the repo, loads configuration for each host from `hosts/*`. Uses different sources for different instances: latest NixOS unstable for workstations and stable release for servers. |
+| `config/`   |                              | Contains static settings for apps like SSH and Vim. Uses Nix function `builtins.readFile` to read these files for configuration.                                                                  |
+| `home/`     | `features/`                  | Modules for tools and apps (e.g., `git` settings in `features/cli/git.nix`).                                                                                                                      |
+|             | `flavors/`                   | Pre-made setups like minimal or development environments, usually a combination of `features`.                                                                                                    |
+| `hosts/`    | `desktop-nixos-workstation/` | Main setup for a NixOS desktop.                                                                                                                                                                   |
+|             | `laptop-macos-work/`         | MacBook setup using home-manager.                                                                                                                                                                 |
+|             | `laptop-nixos-aha/`          | NixOS laptop setup.                                                                                                                                                                               |
+|             | `laptop-wsl-windows/`        | WSL setup using home-manager.                                                                                                                                                                     |
+|             | `server-nixos-gateway/`      | NixOS server setup.                                                                                                                                                                               |
+| `lib/`      |                              | Common Nix functions and tools, including a simple SSH function to read all `.pub` files in a directory.                                                                                          |
+| `nixos/`    | `features/`                  | Individual NixOS features like services/applications/cli.                                                                                                                                         |
+|             | `flavors/`                   | Pre-made NixOS setups for different needs, usually a combination of `features` + specific settings.                                                                                               |
+|             | `hardware/`                  | Settings for specific hardware like GPUs.                                                                                                                                                         |
+|             | `modules/`                   | Custom NixOS modules for extra features.                                                                                                                                                          |
+| `overlays/` |                              | Custom package overlays for Nixpkgs, e.g., `mkLinuxOnly` function for importing Linux-only packages.                                                                                              |
+| `pkgs/`     |                              | Custom package definitions for software not in the standard Nix repositories.                                                                                                                     |
 
 ## How I'm Using This
 
